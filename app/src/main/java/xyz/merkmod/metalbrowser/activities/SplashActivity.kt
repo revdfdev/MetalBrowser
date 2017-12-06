@@ -17,8 +17,6 @@ class SplashActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SplashScreenUI().setContentView(this)
-        preference.edit().putString("name", "Rehan").apply()
-        toast("hello ${preference.getString("name", "")}")
     }
 
     override fun onStart() {
