@@ -19,8 +19,8 @@ import java.util.concurrent.TimeUnit
  */
 
 object Properties {
-    const val BASE_URL = "https://newsapi.org/v1"
-    const val apiKey = "a30d8a5ddb944651aa5093177836b6f1"
+    val BASE_URL = "https://newsapi.org/v1/"
+    val apiKey = "a30d8a5ddb944651aa5093177836b6f1"
 }
 
 fun MetalModules() = listOf(SharedPreferenceModule(), NetworkModule())
@@ -38,7 +38,7 @@ class NetworkModule: AndroidModule() {
     override fun context() = applicationContext {
         provide { createOkttpClient(this@NetworkModule.context) }
         provide { createPicasso(this@NetworkModule.context, get()) }
-        provide { createWebService<NewSource>(get(), getProperty(Properties.BASE_URL)) }
+        provide { createWebService(get(), Properties.BASE_URL) }
     }
 }
 
@@ -68,9 +68,11 @@ fun createPicasso(context: android.content.Context, okHttpClient: OkHttpClient):
 }
 
 
-inline fun <reified T> createWebService(okHttpClient: OkHttpClient, url: String)
-        = Retrofit.Builder()
+fun createWebService(okHttpClient: OkHttpClient, url: String): NewSource {
+    val retrofit = Retrofit.Builder()
             .baseUrl(url)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    return retrofit.create(NewSource::class.java)
+}

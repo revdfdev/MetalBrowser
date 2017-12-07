@@ -12,9 +12,9 @@ import xyz.merkmod.metalbrowser.entities.Sources
  */
 interface NewSource {
 
-    @GET("/sources")
+    @GET("sources")
     fun getSources(@QueryMap queries: Map<String, String>): Call<Sources>
 
-    @GET("/articles")
+    @GET("articles")
     fun getArticles(@QueryMap queries: Map<String, String>): Call<Articles>
 }
